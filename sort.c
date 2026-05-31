@@ -109,3 +109,91 @@ void selectionSort(int arr[], int n) {
         arr[i] = temp;
     }
 }
+
+// ADVANCE SORTING (STRING)
+void merge(char arr[][MAX_HURUF], int kiri, int tengah, int kanan) {
+    int n1 = tengah - kiri + 1;
+    int n2 = kanan - tengah;
+
+    char L[n1][MAX_HURUF];
+    char R[n2][MAX_HURUF];
+
+    for (int i = 0; i < n1; i++) strcpy(L[i], arr[kiri + i]);
+    for (int j = 0; j < n2; j++) strcpy(R[j], arr[tengah + 1 + j]);
+
+    int i = 0, j = 0, k = kiri;
+    while (i < n1 && j < n2) {
+        if (strcmp(L[i], R[j]) <= 0) {
+            strcpy(arr[k], L[i]);
+            i++;
+        } else {
+            strcpy(arr[k], R[j]);
+            j++;
+        }
+        k++;
+    }
+    while (i < n1) {
+        strcpy(arr[k], L[i]);
+        i++; k++;
+    }
+    while (j < n2) {
+        strcpy(arr[k], R[j]);
+        j++; k++;
+    }
+}
+
+void mergeSort(char arr[][MAX_HURUF], int kiri, int kanan) {
+    if (kiri < kanan) {
+        int tengah = kiri + (kanan - kiri) / 2;
+        mergeSort(arr, kiri, tengah);
+        mergeSort(arr, tengah + 1, kanan);
+        merge(arr, kiri, tengah, kanan);
+    }
+}
+
+int partition(char arr[][MAX_HURUF], int low, int high) {
+    int acak = low + rand() % (high - low + 1);
+    char temp[MAX_HURUF];
+    strcpy(temp, arr[acak]);
+    strcpy(arr[acak], arr[high]);
+    strcpy(arr[high], temp);
+
+    char pivot[MAX_HURUF];
+    strcpy(pivot, arr[high]);
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; j++) {
+        if (strcmp(arr[j], pivot) <= 0) {
+            i++;
+            strcpy(temp, arr[i]);
+            strcpy(arr[i], arr[j]);
+            strcpy(arr[j], temp);
+        }
+    }
+    strcpy(temp, arr[i + 1]);
+    strcpy(arr[i + 1], arr[high]);
+    strcpy(arr[high], temp);
+    return (i + 1);
+}
+
+void quickSort(char arr[][MAX_HURUF], int low, int high) {
+     if (low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+void shellSort(char arr[][MAX_HURUF], int n) {
+    char temp[MAX_HURUF];
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < n; i++) {
+            strcpy(temp, arr[i]);
+            int j;
+            for (j = i; j >= gap && strcmp(arr[j - gap], temp) > 0; j -= gap) {
+                strcpy(arr[j], arr[j - gap]);
+            }
+            strcpy(arr[j], temp);
+        }
+    }
+}
