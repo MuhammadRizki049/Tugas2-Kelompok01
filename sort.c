@@ -67,3 +67,45 @@ void hitungWaktu(clock_t mulai, clock_t selesai) {
     double waktu = (double)(selesai - mulai) / CLOCKS_PER_SEC;
     printf("Waktu Eksekusi: %f detik\n\n", waktu);
 }
+
+// SORTING DASAR (INT)
+void bubbleSort(int arr[], int n) {
+    int temp;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void insertionSort(int arr[], int n) {
+    int key, j;
+    for (int i = 1; i < n; i++) {
+        key = arr[i];
+        j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+void selectionSort(int arr[], int n) {
+    int min_idx, temp;
+    for (int i = 0; i < n - 1; i++) {
+        min_idx = i;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[min_idx]) {
+                min_idx = j;
+            }
+        }
+        temp = arr[min_idx];
+        arr[min_idx] = arr[i];
+        arr[i] = temp;
+    }
+}
